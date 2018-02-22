@@ -3,17 +3,19 @@ package com.pokemanage.pokedata;
 import java.util.Map;
 
 public class Pokedex {
-    private final Map<String, Boolean> posessionMap;
+    private static final String CAPTURED = "CAPTURED";
 
-    public Pokedex(final Map<String, Boolean> posessionMap) {
-        this.posessionMap = posessionMap;
+    private final Map<String, String> possessionMap;
+
+    public Pokedex(final Map<String, String> possessionMap) {
+        this.possessionMap = possessionMap;
     }
 
-    public Map<String, Boolean> posessionMap() {
-        return this.posessionMap;
+    public Map<String, String> posessionMap() {
+        return this.possessionMap;
     }
 
     public void capturePokemon(final String name) {
-        posessionMap.put(name, true);
+        possessionMap.put(name, CAPTURED);
     }
 }

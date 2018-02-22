@@ -2,7 +2,7 @@ package com.pokemanage.pokedata;
 
 import java.util.List;
 
-public class Pokemon {
+public class Pokemon implements Comparable {
     public static final int OUT_OF_PC = 0;
 
     private String name;
@@ -76,5 +76,18 @@ public class Pokemon {
 
     public void takeOutOfPc() {
         this.box = OUT_OF_PC;
+    }
+
+    @Override
+    public int compareTo(final Object other) {
+        final Pokemon o = (Pokemon) other;
+        if (this.level() != o.level()) {
+            return this.level() - o.level();
+        } else if (this.hp() != o.hp()) {
+            return this.hp() - o.hp();
+        } else if (this.box() != o.box()) {
+            return this.box() - o.box();
+        }
+        return this.name().compareTo(o.name());
     }
 }

@@ -15,4 +15,6 @@ public class PokemonQueue {
         this.boxSizes = boxSizes;
         this.avgLevel = avgLevel;
     }
+
+
 }
