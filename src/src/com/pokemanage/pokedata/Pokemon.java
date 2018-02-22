@@ -90,4 +90,18 @@ public class Pokemon implements Comparable {
         }
         return this.name().compareTo(o.name());
     }
+
+    @Override
+    public boolean equals(final Object other) {
+        final Pokemon o = (Pokemon) other;
+        if (this.level() != o.level()) {
+            return false;
+        } else if (this.hp() != o.hp()) {
+            return false;
+        } else if (this.box() != o.box()) {
+            return false;
+        }
+        return this.name().equals(o.name())
+                && this.originalTrainer().equals(o.originalTrainer());
+    }
 }
