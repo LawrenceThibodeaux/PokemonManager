@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
  * Also keeps track of average pokemon level.
  */
 public class PokemonQueue {
-    private static final int MAX_BOX_SIZE = 20;
+    public static final int MAX_BOX_SIZE = 20;
     private PriorityQueue<Pokemon> queue;
     private int[] boxSizes;
     private double avgLevel;
@@ -49,6 +49,7 @@ public class PokemonQueue {
 
         final Pokemon onDeck = queue.poll();
         boxSizes[onDeck.box()]--;
+        // TODO: recalculate average level
         return onDeck;
     }
 }
