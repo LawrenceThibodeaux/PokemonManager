@@ -66,4 +66,26 @@ public class PokemonData {
 
         return moveProgressByLevel.get(maxMoveLevel) + "@" + maxMoveLevel;
     }
+
+    public String toString() {
+        String result = "{";
+        result += (name + ", ");
+        result += (number + ", ");
+        for (Map.Entry entry : moveProgressByLevel.entrySet()) {
+            result += (entry.getKey() + ":" + entry.getValue());
+        }
+        result += ", ";
+        for (PokemonVersionColor pvc : availability) {
+            result += (pvc + ":");
+        }
+        result += ", ";
+        result += (evolutionCondition + ", ");
+        for (String pokeName : evolutionTargetPokemon) {
+            result += (pokeName + ":");
+        }
+        result += ", ";
+        result += (type1 + ", ");
+        result += (type2 + "}");
+        return result;
+    }
 }
