@@ -12,7 +12,7 @@ public class Pokemon implements Comparable {
     private int hp;
     private boolean isTraded;
     private List<HMMove> hmMoves;
-    private PokeTrainer originalTrainer;
+    private PokemonVersionColor originalTrainer;
 
     public Pokemon(
             final String name,
@@ -22,7 +22,7 @@ public class Pokemon implements Comparable {
             final int hp,
             final boolean isTraded,
             final List<HMMove> hmMoves,
-            final PokeTrainer originalTrainer
+            final PokemonVersionColor originalTrainer
     ){
         this.name = name;
         this.nickname = nickname;
@@ -62,7 +62,7 @@ public class Pokemon implements Comparable {
         return this.hmMoves;
     }
 
-    public PokeTrainer originalTrainer() {
+    public PokemonVersionColor originalTrainer() {
         return this.originalTrainer;
     }
 
