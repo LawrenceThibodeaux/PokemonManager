@@ -37,16 +37,20 @@ public class PokemonQueue {
      * Returns provided Pokemon to the priority queue,
      * and returns the pokemon on the top of the queue.
      */
-    public Pokemon enqueue(final Pokemon pokemon) {
+    public void enqueue(final Pokemon pokemon) {
+        // TODO: recalculate average level
         int targetBox = 0;
         for (int i = 1; i < boxSizes.length; i++) {
             if (boxSizes[i] < MAX_BOX_SIZE) {
                 pokemon.putInBox(i);
                 boxSizes[i]++;
-                break;
+                queue.add(pokemon);
+                return;
             }
         }
+    }
 
+    public Pokemon dequeue() {
         final Pokemon onDeck = queue.poll();
         boxSizes[onDeck.box()]--;
         // TODO: recalculate average level

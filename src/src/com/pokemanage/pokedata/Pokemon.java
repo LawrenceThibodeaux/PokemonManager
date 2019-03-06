@@ -1,8 +1,11 @@
 package com.pokemanage.pokedata;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Pokemon implements Comparable {
+    private static final String FIELD_DELIMITER = ",";
+    private static final String SUBFIELD_DELIMITER = ":";
     public static final int OUT_OF_PC = 0;
 
     private String name;
@@ -103,5 +106,22 @@ public class Pokemon implements Comparable {
         }
         return this.name().equals(o.name())
                 && this.originalTrainer().equals(o.originalTrainer());
+    }
+
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(this.name()).append(FIELD_DELIMITER);
+        sb.append(this.nickname()).append(FIELD_DELIMITER);
+        sb.append(this.level()).append(FIELD_DELIMITER);
+        sb.append(this.box()).append(FIELD_DELIMITER);
+        sb.append(this.hp()).append(FIELD_DELIMITER);
+        sb.append(this.isTraded()).append(FIELD_DELIMITER);
+        sb.append(String.join(SUBFIELD_DELIMITER,
+                this.hmMoves().stream()
+                        .map(HMMove::toString)
+                        .collect(Collectors.toList())))
+                .append(FIELD_DELIMITER);
+        sb.append(this.originalTrainer());
+        return sb.toString();
     }
 }

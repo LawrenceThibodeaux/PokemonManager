@@ -10,7 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class TrainerQueueFileManager {
     private static final String TRAINER_QUEUE_DATA_FILE_PREFIX =
@@ -25,7 +28,20 @@ public class TrainerQueueFileManager {
     }
 
     public boolean saveQueue(final PokemonQueue queue, final PokemonVersionColor pvc) {
-        // TODO: Overwrite the trainer queue file
+        final Path trainerQueue = Paths.get(
+                TRAINER_QUEUE_DATA_FILE_PREFIX + pvc + TEXT_SUFFIX);
+        final List<String> lines = new LinkedList<>();
+        for (final Pokemon p : queue.currentQueue()) {
+            lines.add(p.toString());
+            System.out.println(p.toString());
+        }
+
+        try {
+            Files.write(trainerQueue, lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
@@ -42,6 +58,7 @@ public class TrainerQueueFileManager {
                 final String[] entryFields = rawEntry.split(FIELD_DELIMITER, 0);
                 final Pokemon pokemon = parsePokemon(entryFields);
                 queue.add(pokemon);
+                // TODO: consider passing a trainer and filling the current party
                 boxSizes[pokemon.box()]++;
                 totalLevels += pokemon.level();
             }
