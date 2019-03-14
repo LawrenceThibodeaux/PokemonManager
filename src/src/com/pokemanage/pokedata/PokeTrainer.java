@@ -9,13 +9,7 @@ public class PokeTrainer {
     private final PokemonVersionColor version;
 
     public PokeTrainer(
-            final List<Pokemon> currentParty,
-            final PokemonQueue pokeQueue,
-            final Pokedex pokedex,
             final PokemonVersionColor version) {
-        this.currentParty = currentParty;
-        this.pokeQueue = pokeQueue;
-        this.pokedex = pokedex;
         this.version = version;
     }
 
@@ -23,12 +17,24 @@ public class PokeTrainer {
         return this.currentParty;
     }
 
+    public void setCurrentParty(final List<Pokemon> currentParty) {
+        this.currentParty = currentParty;
+    }
+
     public PokemonQueue pokeQueue() {
         return this.pokeQueue;
     }
 
+    public void setPokeQueue(final PokemonQueue pokeQueue) {
+        this.pokeQueue = pokeQueue;
+    }
+
     public Pokedex pokedex() {
         return this.pokedex;
+    }
+
+    public void setPokedex(final Pokedex pokedex) {
+        this.pokedex = pokedex;
     }
 
     public PokemonVersionColor version() {

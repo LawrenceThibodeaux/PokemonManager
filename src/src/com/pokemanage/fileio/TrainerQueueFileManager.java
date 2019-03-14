@@ -1,9 +1,6 @@
 package com.pokemanage.fileio;
 
-import com.pokemanage.pokedata.HMMove;
-import com.pokemanage.pokedata.Pokemon;
-import com.pokemanage.pokedata.PokemonQueue;
-import com.pokemanage.pokedata.PokemonVersionColor;
+import com.pokemanage.pokedata.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,11 +42,12 @@ public class TrainerQueueFileManager {
         return true;
     }
 
-    public PokemonQueue loadQueue(final PokemonVersionColor pvc) {
+    public void loadQueue(final PokeTrainer trainer) {
         final PriorityQueue<Pokemon> queue = new PriorityQueue<>();
+        final List<Pokemon> currentParty = new ArrayList<>();
         final int[] boxSizes = new int[NUM_BOXES + 1];
         final Path trainerQueue = Paths.get(
-                TRAINER_QUEUE_DATA_FILE_PREFIX + pvc + TEXT_SUFFIX);
+                TRAINER_QUEUE_DATA_FILE_PREFIX + trainer.version() + TEXT_SUFFIX);
 
         double totalLevels = 0;
         try {
@@ -58,14 +56,18 @@ public class TrainerQueueFileManager {
                 final String[] entryFields = rawEntry.split(FIELD_DELIMITER, 0);
                 final Pokemon pokemon = parsePokemon(entryFields);
                 queue.add(pokemon);
-                // TODO: consider passing a trainer and filling the current party
+                if (pokemon.box() == 0) {
+                    currentParty.add(pokemon);
+                }
                 boxSizes[pokemon.box()]++;
                 totalLevels += pokemon.level();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new PokemonQueue(queue, boxSizes, totalLevels / queue.size());
+
+        trainer.setCurrentParty(currentParty);
+        trainer.setPokeQueue(new PokemonQueue(queue, boxSizes, totalLevels / queue.size()));
     }
 
     private Pokemon parsePokemon(final String[] entryFields) {

@@ -1,5 +1,6 @@
 package com.pokemanage.fileio;
 
+import com.pokemanage.pokedata.PokeTrainer;
 import com.pokemanage.pokedata.Pokedex;
 import com.pokemanage.pokedata.PokemonVersionColor;
 
@@ -8,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrainerPokedexFileManager {
@@ -33,16 +33,15 @@ public class TrainerPokedexFileManager {
         return true;
     }
 
-    public Pokedex loadPokedex(final PokemonVersionColor pvc) {
+    public void loadPokedex(final PokeTrainer trainer) {
         final Path trainerPokedex = Paths.get(
-                TRAINER_DEX_DATA_FILE_PREFIX + pvc + TEXT_SUFFIX);
+                TRAINER_DEX_DATA_FILE_PREFIX + trainer.version() + TEXT_SUFFIX);
 
         try {
             final List<String> pokedexEntries = Files.readAllLines(trainerPokedex, StandardCharsets.UTF_8);
-            return new Pokedex(pokedexEntries);
+            trainer.setPokedex(new Pokedex(pokedexEntries));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Pokedex(new ArrayList<>());
     }
 }
