@@ -1,6 +1,7 @@
 package com.pokemanage;
 
 import com.pokemanage.fileio.EncyclopediaFileManager;
+import com.pokemanage.fileio.TrainerPokedexFileManager;
 import com.pokemanage.fileio.TrainerQueueFileManager;
 import com.pokemanage.pokedata.*;
 import com.pokemanage.ui.PokemonManagerGUI;
@@ -14,6 +15,7 @@ public class PokemonManagerRunner {
 
     private static PokemonEncyclopedia pokemonEncyclopedia;
     private static final TrainerQueueFileManager trainerQueueFileManager = new TrainerQueueFileManager();
+    private static final TrainerPokedexFileManager trainerPokedexFileManager = new TrainerPokedexFileManager();
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -42,6 +44,13 @@ public class PokemonManagerRunner {
         final PokemonQueue queue = trainerQueueFileManager.loadQueue(PokemonVersionColor.BLUE);
         queue.enqueue(new Pokemon("abra", "abby", 1, 2, 3, true, new ArrayList<>(), PokemonVersionColor.RED));
         trainerQueueFileManager.saveQueue(queue, PokemonVersionColor.BLUE);
+
+        final Pokedex pokedexTest = trainerPokedexFileManager.loadPokedex(PokemonVersionColor.BLUE);
+        for (final String pokemun : pokedexTest.uncapturedList()) {
+            System.out.println(pokemun);
+        }
+        pokedexTest.capturePokemon("abra");
+        trainerPokedexFileManager.savePokedex(pokedexTest, PokemonVersionColor.BLUE);
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

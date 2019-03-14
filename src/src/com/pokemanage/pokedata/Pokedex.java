@@ -1,21 +1,19 @@
 package com.pokemanage.pokedata;
 
-import java.util.Map;
+import java.util.List;
 
 public class Pokedex {
-    private static final String CAPTURED = "CAPTURED";
+    private final List<String> uncapturedList;
 
-    private final Map<String, String> possessionMap;
-
-    public Pokedex(final Map<String, String> possessionMap) {
-        this.possessionMap = possessionMap;
+    public Pokedex(final List<String> uncapturedList) {
+        this.uncapturedList = uncapturedList;
     }
 
-    public Map<String, String> posessionMap() {
-        return this.possessionMap;
+    public List<String> uncapturedList() {
+        return this.uncapturedList;
     }
 
     public void capturePokemon(final String name) {
-        possessionMap.put(name, CAPTURED);
+        uncapturedList.remove(name);
     }
 }
