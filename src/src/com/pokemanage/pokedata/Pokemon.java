@@ -124,4 +124,13 @@ public class Pokemon implements Comparable {
         sb.append(this.originalTrainer());
         return sb.toString();
     }
+
+    public String getNotes() {
+        return (this.isTraded ? "Traded | ": "")
+                + "Next Move: " + 1 + "|"
+                + "Evolve at: " + 2 + "|"
+                + String.join(SUBFIELD_DELIMITER, this.hmMoves().stream()
+                        .map(HMMove::toString)
+                        .collect(Collectors.toList()));
+    }
 }

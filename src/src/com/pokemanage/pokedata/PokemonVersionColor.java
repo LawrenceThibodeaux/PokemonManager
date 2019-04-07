@@ -1,5 +1,5 @@
 package com.pokemanage.pokedata;
 
 public enum PokemonVersionColor {
-    RED, BLUE, YELLOW;
+    RED, BLUE, YELLOW
 }

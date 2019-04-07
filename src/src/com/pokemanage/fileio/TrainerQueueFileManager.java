@@ -86,8 +86,10 @@ public class TrainerQueueFileManager {
     private List<HMMove> parseHMMoves(final String rawHMMoves) {
         final String[] subFields = rawHMMoves.split(SUBFIELD_DELIMITER, 0);
         final List<HMMove> result = new ArrayList<>();
-        for (int i = 0; i < subFields.length; i ++) {
-            result.add(HMMove.valueOf(subFields[i]));
+        for (final String subField : subFields) {
+            if (subField != null && !subField.equals("")) {
+                result.add(HMMove.valueOf(subField));
+            }
         }
         return result;
     }
