@@ -82,7 +82,7 @@ public class PokemonManagerRunner {
 
             final PokeTrainer pt = trainers.get(color);
             for (final Pokemon p : pt.currentParty()) {
-                model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.getNotes()});
+                model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.getNotes(pokemonEncyclopedia)});
             }
 
             gui.getPartyTable(color).setModel(model);

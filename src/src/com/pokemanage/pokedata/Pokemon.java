@@ -125,11 +125,12 @@ public class Pokemon implements Comparable {
         return sb.toString();
     }
 
-    public String getNotes() {
+    public String getNotes(final PokemonEncyclopedia pe) {
+        final PokemonData data = pe.getPokemonDataByName(this.name);
         return (this.isTraded ? "Traded | ": "")
-                + "Next Move: " + 1 + "|"
-                + "Evolve at: " + 2 + "|"
-                + String.join(SUBFIELD_DELIMITER, this.hmMoves().stream()
+                + "Next Move: " + data.getNextMove(this.level) + "|"
+                + "Last Move: " + data.getLastMove() + "|"
+                + String.join(",", this.hmMoves().stream()
                         .map(HMMove::toString)
                         .collect(Collectors.toList()));
     }

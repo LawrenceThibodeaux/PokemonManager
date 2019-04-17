@@ -47,15 +47,29 @@ public class EncyclopediaFileManager {
                 entryFields[4],
                 parseEvolutionTargets(entryFields[5]),
                 PokeType.valueOf(entryFields[6]),
-                PokeType.valueOf(entryFields[7])
+                // At least one type, max of two
+                (!entryFields[7].isEmpty()) ? PokeType.valueOf(entryFields[7]) : null
         );
     }
 
     private Map<Integer, String> parseMoveLevelMap(final String rawField) {
         final String[] subFields = rawField.split(SUBFIELD_DELIMITER, 0);
         final Map<Integer, String> result = new HashMap<>();
-        for (int i = 0; i < subFields.length; i += 2) {
-            result.put(Integer.parseInt(subFields[i]), subFields[i+1]);
+        for (int i = 0; i < subFields.length; i += 3) {
+            final Integer rbLevel = parseInt(subFields[i]);
+            final Integer yLevel = parseInt(subFields[i+1]);
+            final String moveName = subFields[i+2];
+            // Assumes at least one level is non-null
+            if (rbLevel == null) {
+                result.put(yLevel, moveName);
+            } else if (yLevel == null) {
+                result.put(rbLevel, moveName);
+            } else if (rbLevel.equals(yLevel)) {
+                result.put(rbLevel, moveName);
+            } else {
+                result.put(rbLevel, moveName);
+                result.put(yLevel, moveName + " (" + PokemonVersionColor.YELLOW + ")");
+            }
         }
         return result;
     }
@@ -70,11 +84,22 @@ public class EncyclopediaFileManager {
     }
 
     private List<String> parseEvolutionTargets(final String rawField) {
+        if (rawField == null || rawField.isEmpty()) {
+            return new ArrayList<>();
+        }
         final String[] subFields = rawField.split(SUBFIELD_DELIMITER, 0);
         final List<String> result = new ArrayList<>();
         for (int i = 0; i < subFields.length; i ++) {
             result.add(subFields[i]);
         }
         return result;
+    }
+
+    private Integer parseInt(final String maybeInt) {
+        try {
+            return Integer.parseInt(maybeInt);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
