@@ -45,10 +45,10 @@ public class EncyclopediaFileManager {
                 parseMoveLevelMap(entryFields[2]),
                 parseVersionAvailibility(entryFields[3]),
                 entryFields[4],
-                parseEvolutionTargets(entryFields[5]),
+                entryFields[5],
                 PokeType.valueOf(entryFields[6]),
                 // At least one type, max of two
-                (!entryFields[7].isEmpty()) ? PokeType.valueOf(entryFields[7]) : null
+                (entryFields.length > 7) ? PokeType.valueOf(entryFields[7]) : null
         );
     }
 
@@ -63,12 +63,12 @@ public class EncyclopediaFileManager {
             if (rbLevel == null) {
                 result.put(yLevel, moveName);
             } else if (yLevel == null) {
-                result.put(rbLevel, moveName);
+                result.put(rbLevel, moveName + " (Y)");
             } else if (rbLevel.equals(yLevel)) {
                 result.put(rbLevel, moveName);
             } else {
                 result.put(rbLevel, moveName);
-                result.put(yLevel, moveName + " (" + PokemonVersionColor.YELLOW + ")");
+                result.put(yLevel, moveName + " (Y)");
             }
         }
         return result;
@@ -83,6 +83,7 @@ public class EncyclopediaFileManager {
         return result;
     }
 
+    // For if we choose to model multiple evolution targets -- hopefully we can massage our data for this not to happen
     private List<String> parseEvolutionTargets(final String rawField) {
         if (rawField == null || rawField.isEmpty()) {
             return new ArrayList<>();
@@ -100,6 +101,16 @@ public class EncyclopediaFileManager {
             return Integer.parseInt(maybeInt);
         } catch (NumberFormatException e) {
             return null;
+        }
+    }
+
+    // For if our data contains multiple moves per level -- hopefully we can massage our data for this not to happen
+    private void putOrAppend(final Map<Integer, String> result, final Integer level, final String move) {
+        if (result.containsKey(level)) {
+            final String moves = result.get(level);
+            result.put(level, moves + ", " + move);
+        } else {
+            result.put(level, move);
         }
     }
 }

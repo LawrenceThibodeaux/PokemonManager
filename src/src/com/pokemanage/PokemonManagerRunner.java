@@ -52,6 +52,7 @@ public class PokemonManagerRunner {
                 createAndShowGUI();
 
                 renderParties();
+                // TODO: implement renderPokeQueue()
             }
         });
     }
@@ -73,12 +74,18 @@ public class PokemonManagerRunner {
     private static void renderParties() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
-            final DefaultTableModel model = (DefaultTableModel) gui.getPartyTable(color).getModel();
+            final JTable partyTable = gui.getPartyTable(color);
+            final DefaultTableModel model = (DefaultTableModel) partyTable.getModel();
 
             model.addColumn("Name");
             model.addColumn("Level");
             model.addColumn("HP");
             model.addColumn("Notes");
+
+            partyTable.getColumnModel().getColumn(0).setMaxWidth(100);
+            partyTable.getColumnModel().getColumn(1).setMaxWidth(50);
+            partyTable.getColumnModel().getColumn(2).setMaxWidth(50);
+            partyTable.getColumnModel().getColumn(2).setPreferredWidth(50);
 
             final PokeTrainer pt = trainers.get(color);
             for (final Pokemon p : pt.currentParty()) {
@@ -86,6 +93,7 @@ public class PokemonManagerRunner {
             }
 
             gui.getPartyTable(color).setModel(model);
+            gui.getPartyTable(color).doLayout();
         }
     }
 }

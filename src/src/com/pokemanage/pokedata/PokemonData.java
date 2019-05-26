@@ -1,6 +1,5 @@
 package com.pokemanage.pokedata;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ public class PokemonData {
     private final String lastMove;
     private final Set<PokemonVersionColor> availability;
     private final String evolutionCondition;
-    private final List<String> evolutionTargetPokemon;
+    private final String evolutionTargetPokemon;
     private final PokeType type1;
     private final PokeType type2;
 
@@ -21,7 +20,7 @@ public class PokemonData {
             final Map<Integer, String> moveProgressByLevel,
             final Set<PokemonVersionColor> availability,
             final String evolutionCondition,
-            final List<String> evolutionTargetPokemon,
+            final String evolutionTargetPokemon,
             final PokeType type1,
             final PokeType type2
     ) {
@@ -49,7 +48,11 @@ public class PokemonData {
             }
         }
 
-        return moveProgressByLevel.get(nextMoveLevel) + "@" + nextMoveLevel;
+        if (nextMoveLevel < 101) {
+            return moveProgressByLevel.get(nextMoveLevel) + "@" + nextMoveLevel;
+        } else {
+            return "All moves learned";
+        }
     }
 
     public String getLastMove() {
@@ -80,10 +83,7 @@ public class PokemonData {
         }
         result += ", ";
         result += (evolutionCondition + ", ");
-        for (String pokeName : evolutionTargetPokemon) {
-            result += (pokeName + ":");
-        }
-        result += ", ";
+        result += (evolutionTargetPokemon + ", ");
         result += (type1 + ", ");
         result += (type2 + "}");
         return result;
