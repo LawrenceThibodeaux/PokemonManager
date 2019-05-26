@@ -7,7 +7,7 @@ public class PokemonData {
     private final String name;
     private final int number;
     private final Map<Integer, String> moveProgressByLevel;
-    private final String lastMove;
+    private final int lastMove;
     private final Set<PokemonVersionColor> availability;
     private final String evolutionCondition;
     private final String evolutionTargetPokemon;
@@ -56,10 +56,14 @@ public class PokemonData {
     }
 
     public String getLastMove() {
+        return moveProgressByLevel.get(this.lastMove) + "@" + this.lastMove;
+    }
+
+    public int lastMoveLevel() {
         return this.lastMove;
     }
 
-    private String calculateLastMove() {
+    private int calculateLastMove() {
         int maxMoveLevel = 0;
         for (Map.Entry<Integer, String> entry : moveProgressByLevel.entrySet()) {
             if (entry.getKey() > maxMoveLevel) {
@@ -67,7 +71,7 @@ public class PokemonData {
             }
         }
 
-        return moveProgressByLevel.get(maxMoveLevel) + "@" + maxMoveLevel;
+        return maxMoveLevel;
     }
 
     public String toString() {

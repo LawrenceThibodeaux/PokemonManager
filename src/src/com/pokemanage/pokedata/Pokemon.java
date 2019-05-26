@@ -127,10 +127,10 @@ public class Pokemon implements Comparable {
 
     public String getNotes(final PokemonEncyclopedia pe) {
         final PokemonData data = pe.getPokemonDataByName(this.name);
-        return (this.isTraded ? "TR | ": "")
-                + "Next: " + data.getNextMove(this.level) + " | "
-                + "Last: " + data.getLastMove() +
-                (!this.hmMoves().isEmpty() ? " | "
+        return (this.isTraded ? "TR": "")
+                + " | Next: " + data.getNextMove(this.level)
+                + ((this.level <= data.lastMoveLevel()) ? " | Last: " + data.getLastMove() : "")
+                + (!this.hmMoves().isEmpty() ? " | "
                 + String.join(",", this.hmMoves().stream()
                         .map(HMMove::toString)
                         .collect(Collectors.toList())) : "");

@@ -52,7 +52,8 @@ public class PokemonManagerRunner {
                 createAndShowGUI();
 
                 renderParties();
-                // TODO: implement renderPokeQueue()
+                renderPokeQueues();
+                renderAvgLevel();
             }
         });
     }
@@ -68,6 +69,7 @@ public class PokemonManagerRunner {
             trainerQueueFileManager.loadQueue(trainer);
             trainerPokedexFileManager.loadPokedex(trainer);
             trainers.put(color, trainer);
+            System.out.println(trainer.pokeQueue().avgLevel());
         }
     }
 
@@ -94,6 +96,42 @@ public class PokemonManagerRunner {
 
             gui.getPartyTable(color).setModel(model);
             gui.getPartyTable(color).doLayout();
+        }
+    }
+
+    private static void renderPokeQueues() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+
+            final JTable queueTable = gui.getQueueTable(color);
+            final DefaultTableModel model = (DefaultTableModel) queueTable.getModel();
+
+            model.addColumn("Name");
+            model.addColumn("Level");
+            model.addColumn("HP");
+            model.addColumn("Notes");
+
+            queueTable.getColumnModel().getColumn(0).setMaxWidth(100);
+            queueTable.getColumnModel().getColumn(1).setMaxWidth(50);
+            queueTable.getColumnModel().getColumn(2).setMaxWidth(50);
+            queueTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+
+            final PokeTrainer pt = trainers.get(color);
+            for (final Pokemon p : pt.pokeQueue().currentQueue()) {
+                model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.getNotes(pokemonEncyclopedia)});
+            }
+
+            gui.getQueueTable(color).setModel(model);
+            gui.getQueueTable(color).doLayout();
+        }
+    }
+
+    private static void renderAvgLevel() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+
+            final JLabel avgLevelValue = gui.getAvgLevelValue(color);
+
+            final PokeTrainer pt = trainers.get(color);
+            avgLevelValue.setText(String.format("%.2f", pt.pokeQueue().avgLevel()));
         }
     }
 }
