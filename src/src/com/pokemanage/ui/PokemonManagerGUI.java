@@ -1,11 +1,14 @@
 package com.pokemanage.ui;
 
+import com.pokemanage.pokedata.PokeTrainer;
 import com.pokemanage.pokedata.PokemonVersionColor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PokemonManagerGUI {
     private JPanel mainPanel;
@@ -42,27 +45,77 @@ public class PokemonManagerGUI {
     private JTable queueTableYELLOW;
     private JTable pokedexTableYELLOW;
 
-    private LevelAndEnqueueDialog levelAndEnqueueDialog = new LevelAndEnqueueDialog();
-    private AddNewDialog addNewDialog = new AddNewDialog();
-    private TradeDialog tradeDialog = new TradeDialog();
+    // TODO: Implement addnew buttons
+    private AddNewDialog addNewDialogBlue = new AddNewDialog();
+    private AddNewDialog addNewDialogRed = new AddNewDialog();
+    private AddNewDialog addNewDialogYellow = new AddNewDialog();
 
-    public PokemonManagerGUI() {
+    // TODO: Implement trade buttons
+    private TradeDialog tradeDialogBlue = new TradeDialog();
+    private TradeDialog tradeDialogRed = new TradeDialog();
+    private TradeDialog tradeDialogYellow = new TradeDialog();
+
+    // TODO: implement save buttons
+
+    private final Map<PokemonVersionColor, PokeTrainer> trainers;
+
+    public PokemonManagerGUI(final Map<PokemonVersionColor, PokeTrainer> trainers) {
+        this.trainers = trainers;
         levelAndEnqueueButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                levelAndEnqueueDialog.showDialog();
+                final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
+                dialog.showDialog(trainers.get(PokemonVersionColor.BLUE));
             }
         });
         addNewButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNewDialog.showDialog();
+                addNewDialogBlue.showDialog();
             }
         });
         tradeButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradeDialog.showDialog();
+                tradeDialogBlue.showDialog();
+            }
+        });
+        levelAndEnqueueButtonRED.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
+                dialog.showDialog(trainers.get(PokemonVersionColor.RED));
+            }
+        });
+        addNewButtonRED.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addNewDialogRed.showDialog();
+            }
+        });
+        tradeButtonRED.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tradeDialogRed.showDialog();
+            }
+        });
+        levelAndEnqueueButtonYELLOW.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
+                dialog.showDialog(trainers.get(PokemonVersionColor.YELLOW));
+            }
+        });
+        addNewButtonYELLOW.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addNewDialogYellow.showDialog();
+            }
+        });
+        tradeButtonYELLOW.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tradeDialogYellow.showDialog();
             }
         });
     }
@@ -106,6 +159,45 @@ public class PokemonManagerGUI {
         }
         if (color == PokemonVersionColor.YELLOW) {
             return averageLevelValueYELLOW;
+        }
+        return null;
+    }
+
+    public JTable getPokedexTable(final PokemonVersionColor color) {
+        if (color == PokemonVersionColor.BLUE) {
+            return pokedexTableBLUE;
+        }
+        if (color == PokemonVersionColor.RED) {
+            return pokedexTableRED;
+        }
+        if (color == PokemonVersionColor.YELLOW) {
+            return pokedexTableYELLOW;
+        }
+        return null;
+    }
+
+    public AddNewDialog getAddNewDialog(final PokemonVersionColor color) {
+        if (color == PokemonVersionColor.BLUE) {
+            return addNewDialogBlue;
+        }
+        if (color == PokemonVersionColor.RED) {
+            return addNewDialogRed;
+        }
+        if (color == PokemonVersionColor.YELLOW) {
+            return addNewDialogYellow;
+        }
+        return null;
+    }
+
+    public TradeDialog getTradeDialog(final PokemonVersionColor color) {
+        if (color == PokemonVersionColor.BLUE) {
+            return tradeDialogBlue;
+        }
+        if (color == PokemonVersionColor.RED) {
+            return tradeDialogRed;
+        }
+        if (color == PokemonVersionColor.YELLOW) {
+            return tradeDialogYellow;
         }
         return null;
     }

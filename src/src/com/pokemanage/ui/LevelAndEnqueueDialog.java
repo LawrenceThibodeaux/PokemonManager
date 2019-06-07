@@ -1,55 +1,59 @@
 package com.pokemanage.ui;
 
+import com.pokemanage.PokemonManagerRunner;
+import com.pokemanage.pokedata.PokeTrainer;
+import com.pokemanage.pokedata.Pokemon;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class LevelAndEnqueueDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JLabel nameHeader;
     private JLabel levelHeader;
     private JLabel hpHeader;
     private JLabel boxHeader;
     private JLabel evolveHeader;
     private JLabel keepHeader;
-    private JLabel pokemonName1;
     private JCheckBox levelUpBox1;
-    private JTextField hpField1;
-    private JTextField boxField1;
-    private JCheckBox evolveBox1;
-    private JCheckBox keepBox1;
     private JCheckBox levelUpBox2;
-    private JTextField hpField2;
-    private JTextField boxField2;
-    private JCheckBox evolveBox2;
-    private JCheckBox keepBox2;
     private JCheckBox levelUpBox3;
-    private JCheckBox evolveBox3;
-    private JCheckBox keepBox3;
-    private JTextField hpField3;
-    private JTextField boxField3;
     private JCheckBox levelUpBox4;
     private JCheckBox levelUpBox5;
     private JCheckBox levelUpBox6;
+    private JCheckBox evolveBox1;
+    private JCheckBox evolveBox2;
+    private JCheckBox evolveBox3;
     private JCheckBox evolveBox4;
-    private JCheckBox keepBox4;
     private JCheckBox evolveBox5;
-    private JCheckBox keepBox5;
     private JCheckBox evolveBox6;
-    private JCheckBox keepBox6;
-    private JTextField boxField4;
-    private JTextField boxField5;
-    private JTextField boxField6;
+    private JTextField hpField1;
+    private JTextField hpField2;
+    private JTextField hpField3;
     private JTextField hpField4;
     private JTextField hpField5;
     private JTextField hpField6;
+    private JTextField boxField1;
+    private JTextField boxField2;
+    private JTextField boxField3;
+    private JTextField boxField4;
+    private JTextField boxField5;
+    private JTextField boxField6;
+    private JLabel pokemonName1;
     private JLabel pokemonName2;
     private JLabel pokemonName3;
     private JLabel pokemonName4;
     private JLabel pokemonName5;
     private JLabel pokemonName6;
+    private JButton enqueueButton1;
+    private JButton enqueueButton2;
+    private JButton enqueueButton3;
+    private JButton enqueueButton4;
+    private JButton enqueueButton5;
+    private JButton enqueueButton6;
 
     public LevelAndEnqueueDialog() {
         setContentPane(contentPane);
@@ -62,39 +66,120 @@ public class LevelAndEnqueueDialog extends JDialog {
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() when cross is clicked
+        // call onOK() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                onOK();
             }
         });
 
-        // call onCancel() on ESCAPE
+        // call onOK() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                onOK();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
-        // add your code here
+        PokemonManagerRunner.repaintParties();
+        // TODO: Add all the rest of the repaints
         dispose();
     }
 
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
+    public void showDialog(final PokeTrainer trainer) {
+        final List<Pokemon> currentParty = trainer.currentParty();
+        final Pokemon firstPokemon = currentParty.get(0);
+        if (firstPokemon != null) {
+            pokemonName1.setText(firstPokemon.name());
+            hpField1.setText(String.valueOf(firstPokemon.hp()));
+            boxField1.setText(String.valueOf(firstPokemon.box()));
+            enqueueButton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(firstPokemon);
+                    trainer.currentParty().remove(firstPokemon);
+                    boxField1.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
 
-    public void showDialog() {
+        final Pokemon secondPokemon = currentParty.get(1);
+        if (secondPokemon != null) {
+            pokemonName2.setText(secondPokemon.name());
+            hpField2.setText(String.valueOf(secondPokemon.hp()));
+            boxField2.setText(String.valueOf(secondPokemon.box()));
+            enqueueButton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(secondPokemon);
+                    trainer.currentParty().remove(secondPokemon);
+                    boxField2.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
+
+        final Pokemon thirdPokemon = currentParty.get(2);
+        if (thirdPokemon != null) {
+            pokemonName3.setText(thirdPokemon.name());
+            hpField3.setText(String.valueOf(thirdPokemon.hp()));
+            boxField3.setText(String.valueOf(thirdPokemon.box()));
+            enqueueButton3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(thirdPokemon);
+                    trainer.currentParty().remove(thirdPokemon);
+                    boxField3.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
+
+        final Pokemon fourthPokemon = currentParty.get(3);
+        if (fourthPokemon != null) {
+            pokemonName4.setText(fourthPokemon.name());
+            hpField4.setText(String.valueOf(fourthPokemon.hp()));
+            boxField4.setText(String.valueOf(fourthPokemon.box()));
+            enqueueButton4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(fourthPokemon);
+                    trainer.currentParty().remove(fourthPokemon);
+                    boxField4.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
+
+        final Pokemon fifthPokemon = currentParty.get(4);
+        if (fifthPokemon != null) {
+            pokemonName5.setText(fifthPokemon.name());
+            hpField5.setText(String.valueOf(fifthPokemon.hp()));
+            boxField5.setText(String.valueOf(fifthPokemon.box()));
+            enqueueButton5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(fifthPokemon);
+                    trainer.currentParty().remove(fifthPokemon);
+                    boxField5.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
+
+        final Pokemon sixthPokemon = currentParty.get(5);
+        if (sixthPokemon != null) {
+            pokemonName6.setText(sixthPokemon.name());
+            hpField6.setText(String.valueOf(sixthPokemon.hp()));
+            boxField6.setText(String.valueOf(sixthPokemon.box()));
+            enqueueButton6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final int suggestedBox = trainer.pokeQueue().enqueue(sixthPokemon);
+                    trainer.currentParty().remove(sixthPokemon);
+                    boxField6.setText(String.valueOf(suggestedBox));
+                }
+            });
+        }
+
         this.pack();
         this.setVisible(true);
     }
@@ -122,14 +207,11 @@ public class LevelAndEnqueueDialog extends JDialog {
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
         panel1.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         buttonOK = new JButton();
         buttonOK.setText("OK");
         panel2.add(buttonOK, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        buttonCancel = new JButton();
-        buttonCancel.setText("Cancel");
-        panel2.add(buttonCancel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(8, 6, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -151,7 +233,7 @@ public class LevelAndEnqueueDialog extends JDialog {
         evolveHeader.setText("Evolve?");
         panel3.add(evolveHeader, new com.intellij.uiDesigner.core.GridConstraints(0, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         keepHeader = new JLabel();
-        keepHeader.setText("Keep?");
+        keepHeader.setText("Enqueue?");
         panel3.add(keepHeader, new com.intellij.uiDesigner.core.GridConstraints(0, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         pokemonName1 = new JLabel();
         pokemonName1.setText("Label");
@@ -166,9 +248,6 @@ public class LevelAndEnqueueDialog extends JDialog {
         evolveBox1 = new JCheckBox();
         evolveBox1.setText("");
         panel3.add(evolveBox1, new com.intellij.uiDesigner.core.GridConstraints(1, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox1 = new JCheckBox();
-        keepBox1.setText("");
-        panel3.add(keepBox1, new com.intellij.uiDesigner.core.GridConstraints(1, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         pokemonName2 = new JLabel();
         pokemonName2.setText("Label");
         panel3.add(pokemonName2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -182,9 +261,6 @@ public class LevelAndEnqueueDialog extends JDialog {
         evolveBox2 = new JCheckBox();
         evolveBox2.setText("");
         panel3.add(evolveBox2, new com.intellij.uiDesigner.core.GridConstraints(2, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox2 = new JCheckBox();
-        keepBox2.setText("");
-        panel3.add(keepBox2, new com.intellij.uiDesigner.core.GridConstraints(2, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         pokemonName3 = new JLabel();
         pokemonName3.setText("Label");
         panel3.add(pokemonName3, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -194,9 +270,6 @@ public class LevelAndEnqueueDialog extends JDialog {
         evolveBox3 = new JCheckBox();
         evolveBox3.setText("");
         panel3.add(evolveBox3, new com.intellij.uiDesigner.core.GridConstraints(3, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox3 = new JCheckBox();
-        keepBox3.setText("");
-        panel3.add(keepBox3, new com.intellij.uiDesigner.core.GridConstraints(3, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         hpField3 = new JTextField();
         panel3.add(hpField3, new com.intellij.uiDesigner.core.GridConstraints(3, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         boxField3 = new JTextField();
@@ -222,21 +295,12 @@ public class LevelAndEnqueueDialog extends JDialog {
         evolveBox4 = new JCheckBox();
         evolveBox4.setText("");
         panel3.add(evolveBox4, new com.intellij.uiDesigner.core.GridConstraints(4, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox4 = new JCheckBox();
-        keepBox4.setText("");
-        panel3.add(keepBox4, new com.intellij.uiDesigner.core.GridConstraints(4, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         evolveBox5 = new JCheckBox();
         evolveBox5.setText("");
         panel3.add(evolveBox5, new com.intellij.uiDesigner.core.GridConstraints(5, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox5 = new JCheckBox();
-        keepBox5.setText("");
-        panel3.add(keepBox5, new com.intellij.uiDesigner.core.GridConstraints(5, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         evolveBox6 = new JCheckBox();
         evolveBox6.setText("");
         panel3.add(evolveBox6, new com.intellij.uiDesigner.core.GridConstraints(6, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepBox6 = new JCheckBox();
-        keepBox6.setText("");
-        panel3.add(keepBox6, new com.intellij.uiDesigner.core.GridConstraints(6, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         boxField4 = new JTextField();
         panel3.add(boxField4, new com.intellij.uiDesigner.core.GridConstraints(4, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         boxField5 = new JTextField();
@@ -249,6 +313,24 @@ public class LevelAndEnqueueDialog extends JDialog {
         panel3.add(hpField5, new com.intellij.uiDesigner.core.GridConstraints(5, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         hpField6 = new JTextField();
         panel3.add(hpField6, new com.intellij.uiDesigner.core.GridConstraints(6, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        enqueueButton1 = new JButton();
+        enqueueButton1.setText("Enqueue");
+        panel3.add(enqueueButton1, new com.intellij.uiDesigner.core.GridConstraints(1, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        enqueueButton2 = new JButton();
+        enqueueButton2.setText("Enqueue");
+        panel3.add(enqueueButton2, new com.intellij.uiDesigner.core.GridConstraints(2, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        enqueueButton3 = new JButton();
+        enqueueButton3.setText("Enqueue");
+        panel3.add(enqueueButton3, new com.intellij.uiDesigner.core.GridConstraints(3, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        enqueueButton4 = new JButton();
+        enqueueButton4.setText("Enqueue");
+        panel3.add(enqueueButton4, new com.intellij.uiDesigner.core.GridConstraints(4, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        enqueueButton5 = new JButton();
+        enqueueButton5.setText("Enqueue");
+        panel3.add(enqueueButton5, new com.intellij.uiDesigner.core.GridConstraints(5, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        enqueueButton6 = new JButton();
+        enqueueButton6.setText("Enqueue");
+        panel3.add(enqueueButton6, new com.intellij.uiDesigner.core.GridConstraints(6, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

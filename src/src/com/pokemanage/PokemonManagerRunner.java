@@ -3,10 +3,7 @@ package com.pokemanage;
 import com.pokemanage.fileio.EncyclopediaFileManager;
 import com.pokemanage.fileio.TrainerPokedexFileManager;
 import com.pokemanage.fileio.TrainerQueueFileManager;
-import com.pokemanage.pokedata.PokeTrainer;
-import com.pokemanage.pokedata.Pokemon;
-import com.pokemanage.pokedata.PokemonEncyclopedia;
-import com.pokemanage.pokedata.PokemonVersionColor;
+import com.pokemanage.pokedata.*;
 import com.pokemanage.ui.PokemonManagerGUI;
 
 import javax.swing.*;
@@ -34,7 +31,7 @@ public class PokemonManagerRunner {
         JFrame frame = new JFrame("PokemonManager V0.1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gui = new PokemonManagerGUI();
+        gui = new PokemonManagerGUI(trainers);
         frame.getContentPane().add(gui.getMainPanel());
 
         //Display the window.
@@ -46,7 +43,7 @@ public class PokemonManagerRunner {
     public static void main(String[] args) {
         loadData();
 
-        // TODO: hook up GUI elements to model
+        // TODO: implement repaint methods
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -54,6 +51,7 @@ public class PokemonManagerRunner {
                 renderParties();
                 renderPokeQueues();
                 renderAvgLevel();
+                renderPokedex();
             }
         });
     }
@@ -69,11 +67,10 @@ public class PokemonManagerRunner {
             trainerQueueFileManager.loadQueue(trainer);
             trainerPokedexFileManager.loadPokedex(trainer);
             trainers.put(color, trainer);
-            System.out.println(trainer.pokeQueue().avgLevel());
         }
     }
 
-    private static void renderParties() {
+    public static void renderParties() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JTable partyTable = gui.getPartyTable(color);
@@ -87,7 +84,7 @@ public class PokemonManagerRunner {
             partyTable.getColumnModel().getColumn(0).setMaxWidth(100);
             partyTable.getColumnModel().getColumn(1).setMaxWidth(50);
             partyTable.getColumnModel().getColumn(2).setMaxWidth(50);
-            partyTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+            partyTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 
             final PokeTrainer pt = trainers.get(color);
             for (final Pokemon p : pt.currentParty()) {
@@ -99,7 +96,24 @@ public class PokemonManagerRunner {
         }
     }
 
-    private static void renderPokeQueues() {
+    public static void repaintParties() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+            final JTable partyTable = gui.getPartyTable(color);
+            final DefaultTableModel model = (DefaultTableModel) partyTable.getModel();
+
+            model.setRowCount(0);
+
+            final PokeTrainer pt = trainers.get(color);
+            for (final Pokemon p : pt.currentParty()) {
+                model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.getNotes(pokemonEncyclopedia)});
+            }
+
+            gui.getPartyTable(color).setModel(model);
+            gui.getPartyTable(color).doLayout();
+        }
+    }
+
+    public static void renderPokeQueues() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JTable queueTable = gui.getQueueTable(color);
@@ -108,16 +122,20 @@ public class PokemonManagerRunner {
             model.addColumn("Name");
             model.addColumn("Level");
             model.addColumn("HP");
+            model.addColumn("Box");
             model.addColumn("Notes");
 
             queueTable.getColumnModel().getColumn(0).setMaxWidth(100);
             queueTable.getColumnModel().getColumn(1).setMaxWidth(50);
             queueTable.getColumnModel().getColumn(2).setMaxWidth(50);
-            queueTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+            queueTable.getColumnModel().getColumn(3).setMaxWidth(50);
+            queueTable.getColumnModel().getColumn(4).setPreferredWidth(50);
 
             final PokeTrainer pt = trainers.get(color);
             for (final Pokemon p : pt.pokeQueue().currentQueue()) {
-                model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.getNotes(pokemonEncyclopedia)});
+                if (p.box() != 0) {
+                    model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.box(), p.getNotes(pokemonEncyclopedia)});
+                }
             }
 
             gui.getQueueTable(color).setModel(model);
@@ -125,13 +143,35 @@ public class PokemonManagerRunner {
         }
     }
 
-    private static void renderAvgLevel() {
+    public static void renderAvgLevel() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JLabel avgLevelValue = gui.getAvgLevelValue(color);
 
             final PokeTrainer pt = trainers.get(color);
             avgLevelValue.setText(String.format("%.2f", pt.pokeQueue().avgLevel()));
+        }
+    }
+
+    public static void renderPokedex() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+
+            final JTable pokedexTable = gui.getPokedexTable(color);
+            final DefaultTableModel model = (DefaultTableModel) pokedexTable.getModel();
+
+            model.addColumn("Name");
+            model.addColumn("Source");
+
+            pokedexTable.getColumnModel().getColumn(0).setMaxWidth(100);
+            pokedexTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+
+            final PokeTrainer pt = trainers.get(color);
+            for (final PokedexEntry p : pt.pokedex().uncapturedList()) {
+                model.addRow(new Object[]{p.name(), p.source()});
+            }
+
+            gui.getPokedexTable(color).setModel(model);
+            gui.getPokedexTable(color).doLayout();
         }
     }
 }

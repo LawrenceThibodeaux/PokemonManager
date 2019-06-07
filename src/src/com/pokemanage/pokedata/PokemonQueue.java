@@ -10,15 +10,15 @@ public class PokemonQueue {
     public static final int MAX_BOX_SIZE = 20;
     private PriorityQueue<Pokemon> queue;
     private int[] boxSizes;
-    private double avgLevel;
+    public double avgLevelDividend;
 
     public PokemonQueue(
             final PriorityQueue<Pokemon> queue,
             final int[] boxSizes,
-            final double avgLevel) {
+            final double avgLevelDividend) {
         this.queue = queue;
         this.boxSizes = boxSizes;
-        this.avgLevel = avgLevel;
+        this.avgLevelDividend = avgLevelDividend;
     }
 
     public int[] boxSizes() {
@@ -26,7 +26,7 @@ public class PokemonQueue {
     }
 
     public double avgLevel() {
-        return this.avgLevel;
+        return this.avgLevelDividend / queue.size();
     }
 
     public PriorityQueue<Pokemon> currentQueue() {
@@ -37,23 +37,21 @@ public class PokemonQueue {
      * Returns provided Pokemon to the priority queue,
      * and returns the pokemon on the top of the queue.
      */
-    public void enqueue(final Pokemon pokemon) {
-        // TODO: recalculate average level
-        int targetBox = 0;
+    public int enqueue(final Pokemon pokemon) {
         for (int i = 1; i < boxSizes.length; i++) {
-            if (boxSizes[i] < MAX_BOX_SIZE) {
+            if (boxSizes[i] < MAX_BOX_SIZE - 1) {
                 pokemon.putInBox(i);
                 boxSizes[i]++;
                 queue.add(pokemon);
-                return;
+                return i;
             }
         }
+        return 0;
     }
 
     public Pokemon dequeue() {
         final Pokemon onDeck = queue.poll();
         boxSizes[onDeck.box()]--;
-        // TODO: recalculate average level
         return onDeck;
     }
 }

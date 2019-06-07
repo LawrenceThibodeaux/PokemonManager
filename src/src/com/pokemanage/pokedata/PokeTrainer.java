@@ -49,9 +49,12 @@ public class PokeTrainer {
         this.currentParty.add(toReceive);
         other.currentParty().remove(toReceive);
         other.currentParty().add(toGive);
+        this.pokeQueue.avgLevelDividend += toReceive.level();
+        this.pokeQueue.avgLevelDividend -= toGive.level();
     }
 
     public void addPokemon(final Pokemon pokemon) {
+        this.pokeQueue.avgLevelDividend += pokemon.level();
         this.pokeQueue.enqueue(pokemon);
         this.pokedex.capturePokemon(pokemon.name());
     }
