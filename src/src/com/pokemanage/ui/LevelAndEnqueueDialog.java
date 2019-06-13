@@ -7,6 +7,8 @@ import com.pokemanage.pokedata.Pokemon;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LevelAndEnqueueDialog extends JDialog {
@@ -54,6 +56,31 @@ public class LevelAndEnqueueDialog extends JDialog {
     private JButton enqueueButton4;
     private JButton enqueueButton5;
     private JButton enqueueButton6;
+    private JButton dequeueButton1;
+    private JButton dequeueButton2;
+    private JButton dequeueButton3;
+    private JButton dequeueButton4;
+    private JButton dequeueButton5;
+    private JButton dequeueButton6;
+    private JLabel onDeckBox1;
+    private JLabel onDeckName1;
+    private JLabel onDeckBox2;
+    private JLabel onDeckName2;
+    private JLabel onDeckName3;
+    private JLabel onDeckBox3;
+    private JLabel onDeckName4;
+    private JLabel onDeckBox4;
+    private JLabel onDeckName5;
+    private JLabel onDeckBox5;
+    private JLabel onDeckName6;
+    private JLabel onDeckBox6;
+
+    private final ArrayList<JLabel> onDeckNames = new ArrayList<>(
+            Arrays.asList(onDeckName1, onDeckName2, onDeckName3, onDeckName4, onDeckName5, onDeckName6));
+    private final ArrayList<JLabel> onDeckBoxes = new ArrayList<>(
+            Arrays.asList(onDeckBox1, onDeckBox2, onDeckBox3, onDeckBox4, onDeckBox5, onDeckBox6));
+    private final ArrayList<JButton> dequeueButtons = new ArrayList<>(
+            Arrays.asList(dequeueButton1, dequeueButton2, dequeueButton3, dequeueButton4, dequeueButton5, dequeueButton6));
 
     public LevelAndEnqueueDialog() {
         setContentPane(contentPane);
@@ -84,7 +111,8 @@ public class LevelAndEnqueueDialog extends JDialog {
 
     private void onOK() {
         PokemonManagerRunner.repaintParties();
-        // TODO: Add all the rest of the repaints
+        PokemonManagerRunner.repaintPokeQueues();
+        PokemonManagerRunner.repaintAvgLevel();
         dispose();
     }
 
@@ -178,6 +206,20 @@ public class LevelAndEnqueueDialog extends JDialog {
                     boxField6.setText(String.valueOf(suggestedBox));
                 }
             });
+        }
+
+        for (int i = 0; i < 6; i++) {
+            final Pokemon p = trainer.pokeQueue().dequeue();
+            onDeckNames.get(i).setText(p.name());
+            onDeckBoxes.get(i).setText(String.valueOf(p.box()));
+            dequeueButtons.get(i).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    trainer.currentParty().add(p);
+                }
+            });
+            // TODO: if the pokemon isn't added to the party, reenqueue it
+            // BUG: reenqueuing might change the box -- add enqueue method that preserved box?
         }
 
         this.pack();

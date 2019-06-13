@@ -43,15 +43,14 @@ public class PokemonManagerRunner {
     public static void main(String[] args) {
         loadData();
 
-        // TODO: implement repaint methods
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
 
-                renderParties();
-                renderPokeQueues();
-                renderAvgLevel();
-                renderPokedex();
+                initParties();
+                initPokeQueues();
+                initPokedex();
+                repaintAvgLevel();
             }
         });
     }
@@ -70,7 +69,7 @@ public class PokemonManagerRunner {
         }
     }
 
-    public static void renderParties() {
+    private static void initParties() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JTable partyTable = gui.getPartyTable(color);
@@ -113,7 +112,7 @@ public class PokemonManagerRunner {
         }
     }
 
-    public static void renderPokeQueues() {
+    private static void initPokeQueues() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JTable queueTable = gui.getQueueTable(color);
@@ -143,7 +142,27 @@ public class PokemonManagerRunner {
         }
     }
 
-    public static void renderAvgLevel() {
+    public static void repaintPokeQueues() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+
+            final JTable queueTable = gui.getQueueTable(color);
+            final DefaultTableModel model = (DefaultTableModel) queueTable.getModel();
+
+            model.setRowCount(0);
+
+            final PokeTrainer pt = trainers.get(color);
+            for (final Pokemon p : pt.pokeQueue().currentQueue()) {
+                if (p.box() != 0) {
+                    model.addRow(new Object[]{p.name(), p.level(), p.hp(), p.box(), p.getNotes(pokemonEncyclopedia)});
+                }
+            }
+
+            gui.getQueueTable(color).setModel(model);
+            gui.getQueueTable(color).doLayout();
+        }
+    }
+
+    public static void repaintAvgLevel() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JLabel avgLevelValue = gui.getAvgLevelValue(color);
@@ -153,7 +172,7 @@ public class PokemonManagerRunner {
         }
     }
 
-    public static void renderPokedex() {
+    private static void initPokedex() {
         for (final PokemonVersionColor color : PokemonVersionColor.values()) {
 
             final JTable pokedexTable = gui.getPokedexTable(color);
@@ -164,6 +183,24 @@ public class PokemonManagerRunner {
 
             pokedexTable.getColumnModel().getColumn(0).setMaxWidth(100);
             pokedexTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+
+            final PokeTrainer pt = trainers.get(color);
+            for (final PokedexEntry p : pt.pokedex().uncapturedList()) {
+                model.addRow(new Object[]{p.name(), p.source()});
+            }
+
+            gui.getPokedexTable(color).setModel(model);
+            gui.getPokedexTable(color).doLayout();
+        }
+    }
+
+    public static void repaintPokedex() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+
+            final JTable pokedexTable = gui.getPokedexTable(color);
+            final DefaultTableModel model = (DefaultTableModel) pokedexTable.getModel();
+
+            model.setRowCount(0);
 
             final PokeTrainer pt = trainers.get(color);
             for (final PokedexEntry p : pt.pokedex().uncapturedList()) {
