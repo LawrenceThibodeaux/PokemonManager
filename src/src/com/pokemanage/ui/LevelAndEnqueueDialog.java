@@ -157,7 +157,6 @@ public class LevelAndEnqueueDialog extends JDialog {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         thisButton.setEnabled(false);
-                        // TODO: test these new things!
                         if (evolve.isSelected()) {
                             final PokemonData data = pokeEncyclopedia.getPokemonDataByName(thisPokemon.name());
                              thisPokemon.evolve(data.evolutionTargetPokemon());

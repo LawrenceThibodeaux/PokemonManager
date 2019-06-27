@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PokemonManagerGUI {
+    private static final String LEVEL_AND_ENQUEUE_TEXT = "Level & Enqueue";
     private JPanel mainPanel;
     private JTabbedPane trainerTabs;
     private JPanel redTrainerPanel;
@@ -64,6 +65,9 @@ public class PokemonManagerGUI {
 
     public PokemonManagerGUI(final Map<PokemonVersionColor, PokeTrainer> trainers, final PokemonEncyclopedia pokeEncyclopedia) {
         this.trainers = trainers;
+        levelAndEnqueueButtonBLUE.setText(LEVEL_AND_ENQUEUE_TEXT);
+        levelAndEnqueueButtonRED.setText(LEVEL_AND_ENQUEUE_TEXT);
+        levelAndEnqueueButtonYELLOW.setText(LEVEL_AND_ENQUEUE_TEXT);
         levelAndEnqueueButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -239,9 +243,7 @@ public class PokemonManagerGUI {
         panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         blueTrainerPanel.add(panel2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         levelAndEnqueueButtonBLUE = new JButton();
-        levelAndEnqueueButtonBLUE.setText("Level  Enqueue");
-        levelAndEnqueueButtonBLUE.setMnemonic(' ');
-        levelAndEnqueueButtonBLUE.setDisplayedMnemonicIndex(6);
+        levelAndEnqueueButtonBLUE.setText("Level and Enqueue");
         panel2.add(levelAndEnqueueButtonBLUE, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
