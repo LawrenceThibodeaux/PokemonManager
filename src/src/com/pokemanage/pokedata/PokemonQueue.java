@@ -49,6 +49,17 @@ public class PokemonQueue {
         return 0;
     }
 
+    public int enqueueInBox(final Pokemon pokemon, final int box) {
+        if (boxSizes[box] >= MAX_BOX_SIZE) {
+            throw new RuntimeException();
+        }
+
+        pokemon.putInBox(box);
+        boxSizes[box]++;
+        queue.add(pokemon);
+        return box;
+    }
+
     public Pokemon dequeue() {
         final Pokemon onDeck = queue.poll();
         boxSizes[onDeck.box()]--;

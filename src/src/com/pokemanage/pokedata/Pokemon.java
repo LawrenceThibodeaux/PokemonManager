@@ -1,5 +1,6 @@
 package com.pokemanage.pokedata;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,12 +70,17 @@ public class Pokemon implements Comparable {
         return this.originalTrainer;
     }
 
-    public void levelUp() {
+    public void levelUp(final int newHP) {
         this.level++;
+        this.hp = newHP;
     }
 
     public void putInBox(final int box) {
         this.box = box;
+    }
+
+    public void evolve(final String targetPokemon) {
+        this.name = targetPokemon;
     }
 
     public void takeOutOfPc() {
@@ -134,5 +140,12 @@ public class Pokemon implements Comparable {
                 + String.join(",", this.hmMoves().stream()
                         .map(HMMove::toString)
                         .collect(Collectors.toList())) : "");
+    }
+
+    public static class PokemonComparator implements Comparator<Pokemon> {
+        public int compare(Pokemon a, Pokemon b)
+        {
+            return a.compareTo(b);
+        }
     }
 }

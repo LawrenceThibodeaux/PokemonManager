@@ -21,6 +21,10 @@ public class PokeTrainer {
         this.currentParty = currentParty;
     }
 
+    public void sortParty() {
+        this.currentParty.sort(new Pokemon.PokemonComparator());
+    }
+
     public PokemonQueue pokeQueue() {
         return this.pokeQueue;
     }

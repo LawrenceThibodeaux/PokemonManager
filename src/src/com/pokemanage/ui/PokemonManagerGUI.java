@@ -1,6 +1,7 @@
 package com.pokemanage.ui;
 
 import com.pokemanage.pokedata.PokeTrainer;
+import com.pokemanage.pokedata.PokemonEncyclopedia;
 import com.pokemanage.pokedata.PokemonVersionColor;
 
 import javax.swing.*;
@@ -57,15 +58,17 @@ public class PokemonManagerGUI {
 
     // TODO: implement save buttons
 
+    // TODO: implement HM Move additions
+
     private final Map<PokemonVersionColor, PokeTrainer> trainers;
 
-    public PokemonManagerGUI(final Map<PokemonVersionColor, PokeTrainer> trainers) {
+    public PokemonManagerGUI(final Map<PokemonVersionColor, PokeTrainer> trainers, final PokemonEncyclopedia pokeEncyclopedia) {
         this.trainers = trainers;
         levelAndEnqueueButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
-                dialog.showDialog(trainers.get(PokemonVersionColor.BLUE));
+                dialog.showDialog(trainers.get(PokemonVersionColor.BLUE), pokeEncyclopedia);
             }
         });
         addNewButtonBLUE.addActionListener(new ActionListener() {
@@ -84,7 +87,7 @@ public class PokemonManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
-                dialog.showDialog(trainers.get(PokemonVersionColor.RED));
+                dialog.showDialog(trainers.get(PokemonVersionColor.RED), pokeEncyclopedia);
             }
         });
         addNewButtonRED.addActionListener(new ActionListener() {
@@ -103,7 +106,7 @@ public class PokemonManagerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final LevelAndEnqueueDialog dialog = new LevelAndEnqueueDialog();
-                dialog.showDialog(trainers.get(PokemonVersionColor.YELLOW));
+                dialog.showDialog(trainers.get(PokemonVersionColor.YELLOW), pokeEncyclopedia);
             }
         });
         addNewButtonYELLOW.addActionListener(new ActionListener() {

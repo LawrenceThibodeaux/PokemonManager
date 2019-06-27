@@ -63,6 +63,10 @@ public class PokemonData {
         return this.lastMove;
     }
 
+    public String evolutionTargetPokemon() {
+        return evolutionTargetPokemon;
+    }
+
     private int calculateLastMove() {
         int maxMoveLevel = 0;
         for (Map.Entry<Integer, String> entry : moveProgressByLevel.entrySet()) {

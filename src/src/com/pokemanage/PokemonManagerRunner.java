@@ -31,7 +31,7 @@ public class PokemonManagerRunner {
         JFrame frame = new JFrame("PokemonManager V0.1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gui = new PokemonManagerGUI(trainers);
+        gui = new PokemonManagerGUI(trainers, pokemonEncyclopedia);
         frame.getContentPane().add(gui.getMainPanel());
 
         //Display the window.
