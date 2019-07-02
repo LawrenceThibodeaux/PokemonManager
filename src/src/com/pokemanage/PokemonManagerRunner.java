@@ -168,7 +168,7 @@ public class PokemonManagerRunner {
             final JLabel avgLevelValue = gui.getAvgLevelValue(color);
 
             final PokeTrainer pt = trainers.get(color);
-            avgLevelValue.setText(String.format("%.2f", pt.pokeQueue().avgLevel()));
+            avgLevelValue.setText(String.format("%.2f", pt.avgLevel()));
         }
     }
 

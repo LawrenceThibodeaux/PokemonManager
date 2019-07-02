@@ -116,6 +116,7 @@ public class LevelAndEnqueueDialog extends JDialog {
         PokemonManagerRunner.repaintParties();
         PokemonManagerRunner.repaintPokeQueues();
         PokemonManagerRunner.repaintAvgLevel();
+        PokemonManagerRunner.repaintPokedex();
         dispose();
     }
 
@@ -159,10 +160,12 @@ public class LevelAndEnqueueDialog extends JDialog {
                         thisButton.setEnabled(false);
                         if (evolve.isSelected()) {
                             final PokemonData data = pokeEncyclopedia.getPokemonDataByName(thisPokemon.name());
-                             thisPokemon.evolve(data.evolutionTargetPokemon());
+                            thisPokemon.evolve(data.evolutionTargetPokemon());
+                            trainer.pokedex().capturePokemon(thisPokemon.name());
                         }
                         if (levelUp.isSelected()) {
                             thisPokemon.levelUp(Integer.parseInt(newHP.getText()));
+                            trainer.avgLevelDividend++;
                         }
                         final int suggestedBox = trainer.pokeQueue().enqueue(thisPokemon);
                         trainer.currentParty().remove(thisPokemon);

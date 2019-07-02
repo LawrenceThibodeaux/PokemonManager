@@ -7,6 +7,7 @@ public class PokeTrainer {
     private PokemonQueue pokeQueue;
     private Pokedex pokedex;
     private final PokemonVersionColor version;
+    public double avgLevelDividend;
 
     public PokeTrainer(
             final PokemonVersionColor version) {
@@ -45,6 +46,14 @@ public class PokeTrainer {
         return this.version;
     }
 
+    public void setTotalLevels(final double totalLevels) {
+        this.avgLevelDividend = totalLevels;
+    }
+
+    public double avgLevel() {
+        return this.avgLevelDividend / (pokeQueue.currentQueue().size() + currentParty.size());
+    }
+
     public void trade(final PokeTrainer other, final Pokemon toGive, final Pokemon toReceive) {
         if (!other.currentParty().contains(toReceive)) {
             return;
@@ -53,12 +62,12 @@ public class PokeTrainer {
         this.currentParty.add(toReceive);
         other.currentParty().remove(toReceive);
         other.currentParty().add(toGive);
-        this.pokeQueue.avgLevelDividend += toReceive.level();
-        this.pokeQueue.avgLevelDividend -= toGive.level();
+        this.avgLevelDividend += toReceive.level();
+        this.avgLevelDividend -= toGive.level();
     }
 
     public void addPokemon(final Pokemon pokemon) {
-        this.pokeQueue.avgLevelDividend += pokemon.level();
+        this.avgLevelDividend += pokemon.level();
         this.pokeQueue.enqueue(pokemon);
         this.pokedex.capturePokemon(pokemon.name());
     }

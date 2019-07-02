@@ -68,7 +68,8 @@ public class TrainerQueueFileManager {
         }
 
         trainer.setCurrentParty(currentParty);
-        trainer.setPokeQueue(new PokemonQueue(queue, boxSizes, totalLevels));
+        trainer.setPokeQueue(new PokemonQueue(queue, boxSizes));
+        trainer.setTotalLevels(totalLevels);
     }
 
     private Pokemon parsePokemon(final String[] entryFields) {

@@ -47,11 +47,6 @@ public class PokemonManagerGUI {
     private JTable queueTableYELLOW;
     private JTable pokedexTableYELLOW;
 
-    // TODO: Implement addnew buttons
-    private AddNewDialog addNewDialogBlue = new AddNewDialog();
-    private AddNewDialog addNewDialogRed = new AddNewDialog();
-    private AddNewDialog addNewDialogYellow = new AddNewDialog();
-
     // TODO: Implement trade buttons
     private TradeDialog tradeDialogBlue = new TradeDialog();
     private TradeDialog tradeDialogRed = new TradeDialog();
@@ -78,7 +73,8 @@ public class PokemonManagerGUI {
         addNewButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNewDialogBlue.showDialog();
+                final AddNewDialog dialog = new AddNewDialog(trainers.get(PokemonVersionColor.BLUE));
+                dialog.showDialog();
             }
         });
         tradeButtonBLUE.addActionListener(new ActionListener() {
@@ -97,7 +93,8 @@ public class PokemonManagerGUI {
         addNewButtonRED.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNewDialogRed.showDialog();
+                final AddNewDialog dialog = new AddNewDialog(trainers.get(PokemonVersionColor.RED));
+                dialog.showDialog();
             }
         });
         tradeButtonRED.addActionListener(new ActionListener() {
@@ -116,7 +113,8 @@ public class PokemonManagerGUI {
         addNewButtonYELLOW.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNewDialogYellow.showDialog();
+                final AddNewDialog dialog = new AddNewDialog(trainers.get(PokemonVersionColor.YELLOW));
+                dialog.showDialog();
             }
         });
         tradeButtonYELLOW.addActionListener(new ActionListener() {
@@ -179,32 +177,6 @@ public class PokemonManagerGUI {
         }
         if (color == PokemonVersionColor.YELLOW) {
             return pokedexTableYELLOW;
-        }
-        return null;
-    }
-
-    public AddNewDialog getAddNewDialog(final PokemonVersionColor color) {
-        if (color == PokemonVersionColor.BLUE) {
-            return addNewDialogBlue;
-        }
-        if (color == PokemonVersionColor.RED) {
-            return addNewDialogRed;
-        }
-        if (color == PokemonVersionColor.YELLOW) {
-            return addNewDialogYellow;
-        }
-        return null;
-    }
-
-    public TradeDialog getTradeDialog(final PokemonVersionColor color) {
-        if (color == PokemonVersionColor.BLUE) {
-            return tradeDialogBlue;
-        }
-        if (color == PokemonVersionColor.RED) {
-            return tradeDialogRed;
-        }
-        if (color == PokemonVersionColor.YELLOW) {
-            return tradeDialogYellow;
         }
         return null;
     }
