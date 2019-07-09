@@ -48,9 +48,6 @@ public class PokemonManagerGUI {
     private JTable pokedexTableYELLOW;
 
     // TODO: Implement trade buttons
-    private TradeDialog tradeDialogBlue = new TradeDialog();
-    private TradeDialog tradeDialogRed = new TradeDialog();
-    private TradeDialog tradeDialogYellow = new TradeDialog();
 
     // TODO: implement save buttons
 
@@ -80,7 +77,8 @@ public class PokemonManagerGUI {
         tradeButtonBLUE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradeDialogBlue.showDialog();
+                final TradeDialog dialog = new TradeDialog(trainers.get(PokemonVersionColor.BLUE), trainers);
+                dialog.showDialog();
             }
         });
         levelAndEnqueueButtonRED.addActionListener(new ActionListener() {
@@ -100,7 +98,8 @@ public class PokemonManagerGUI {
         tradeButtonRED.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradeDialogRed.showDialog();
+                final TradeDialog dialog = new TradeDialog(trainers.get(PokemonVersionColor.RED), trainers);
+                dialog.showDialog();
             }
         });
         levelAndEnqueueButtonYELLOW.addActionListener(new ActionListener() {
@@ -120,7 +119,8 @@ public class PokemonManagerGUI {
         tradeButtonYELLOW.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tradeDialogYellow.showDialog();
+                final TradeDialog dialog = new TradeDialog(trainers.get(PokemonVersionColor.YELLOW), trainers);
+                dialog.showDialog();
             }
         });
     }

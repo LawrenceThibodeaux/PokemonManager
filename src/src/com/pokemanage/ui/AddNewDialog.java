@@ -33,10 +33,6 @@ public class AddNewDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        // Populate suggested box -- leave the rest to the user
-        final int box = thisTrainer.pokeQueue().getSuggestedBox();
-        boxField2.setText(String.valueOf(box));
-
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -93,6 +89,10 @@ public class AddNewDialog extends JDialog {
     }
 
     public void showDialog() {
+        // Populate suggested box -- leave the rest to the user
+        final int box = thisTrainer.pokeQueue().getSuggestedBox();
+        boxField2.setText(String.valueOf(box));
+
         this.pack();
         this.setVisible(true);
     }

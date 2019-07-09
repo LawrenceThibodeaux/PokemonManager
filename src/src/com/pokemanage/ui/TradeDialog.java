@@ -1,21 +1,34 @@
 package com.pokemanage.ui;
 
+import com.pokemanage.PokemonManagerRunner;
+import com.pokemanage.pokedata.PokeTrainer;
+import com.pokemanage.pokedata.Pokemon;
+import com.pokemanage.pokedata.PokemonVersionColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import java.util.Map;
 
 public class TradeDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JComboBox destinationTrainerSelector;
-    private JComboBox pokemonToGiveSelector;
-    private JComboBox comboBox3;
+    private JComboBox<String> destinationTrainerSelector;
+    private JComboBox<String> pokemonToGiveSelector;
+    private JComboBox<String> pokemonToReceiveSelector;
     private JLabel destinationTrainerLabel;
     private JLabel pokemonToGiveLabel;
     private JLabel pokemonToReceiveLabel;
 
-    public TradeDialog() {
+    private PokeTrainer thisTrainer;
+    private PokeTrainer otherTrainer;
+    private Map<PokemonVersionColor, PokeTrainer> trainers;
+
+    public TradeDialog(final PokeTrainer thisTrainer, final Map<PokemonVersionColor, PokeTrainer> trainers) {
+        this.thisTrainer = thisTrainer;
+        this.trainers = trainers;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -46,21 +59,62 @@ public class TradeDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        // Set up handler to populate receive box
+        destinationTrainerSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JComboBox cb = (JComboBox) e.getSource();
+                final String otherTrainerColor = (String) cb.getSelectedItem();
+                final PokemonVersionColor pvc = PokemonVersionColor.valueOf(otherTrainerColor);
+                otherTrainer = trainers.get(pvc);
+                populatePokemonSelector(otherTrainer, pokemonToReceiveSelector);
+            }
+        });
     }
 
     private void onOK() {
-        // add your code here
+        // Perform the trade
+        // TODO: Test this part
+        final int toGiveIndex = pokemonToGiveSelector.getSelectedIndex();
+        final int toReceiveIndex = pokemonToGiveSelector.getSelectedIndex();
+        thisTrainer.trade(otherTrainer, thisTrainer.currentParty().get(toGiveIndex), otherTrainer.currentParty().get(toReceiveIndex));
+
+        PokemonManagerRunner.repaintParties();
+        PokemonManagerRunner.repaintPokeQueues();
+        PokemonManagerRunner.repaintAvgLevel();
+        PokemonManagerRunner.repaintPokedex();
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
     public void showDialog() {
+        // Populate other trainers in dropdown
+        for (final PokemonVersionColor pvc : PokemonVersionColor.values()) {
+            if (!pvc.equals(thisTrainer.version())) {
+                destinationTrainerSelector.addItem(pvc.name());
+            }
+        }
+        // Populate give box with this trainer's pokemons
+        populatePokemonSelector(thisTrainer, pokemonToGiveSelector);
+
         this.pack();
         this.setVisible(true);
+    }
+
+    private void populatePokemonSelector(final PokeTrainer pokeTrainer, final JComboBox<String> selector) {
+        selector.removeAllItems();
+        final List<Pokemon> party = pokeTrainer.currentParty();
+        for (final Pokemon p : party) {
+            final String displayString =
+                    p.name() + " " +
+                            ((p.nickname() != null && !p.nickname().equals("")) ? "(" + p.nickname() + "), " : "") +
+                            p.level() + ", " + p.hp();
+            selector.addItem(displayString);
+        }
     }
 
     {
@@ -112,8 +166,9 @@ public class TradeDialog extends JDialog {
         pokemonToReceiveLabel = new JLabel();
         pokemonToReceiveLabel.setText("Pokemon to Receive");
         panel3.add(pokemonToReceiveLabel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        comboBox3 = new JComboBox();
-        panel3.add(comboBox3, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        pokemonToReceiveSelector = new JComboBox();
+        pokemonToReceiveSelector.setEditable(false);
+        panel3.add(pokemonToReceiveSelector, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
