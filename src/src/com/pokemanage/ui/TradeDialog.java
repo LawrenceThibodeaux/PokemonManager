@@ -24,11 +24,9 @@ public class TradeDialog extends JDialog {
 
     private PokeTrainer thisTrainer;
     private PokeTrainer otherTrainer;
-    private Map<PokemonVersionColor, PokeTrainer> trainers;
 
     public TradeDialog(final PokeTrainer thisTrainer, final Map<PokemonVersionColor, PokeTrainer> trainers) {
         this.thisTrainer = thisTrainer;
-        this.trainers = trainers;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -75,11 +73,12 @@ public class TradeDialog extends JDialog {
 
     private void onOK() {
         // Perform the trade
-        // TODO: Test this part
         final int toGiveIndex = pokemonToGiveSelector.getSelectedIndex();
-        final int toReceiveIndex = pokemonToGiveSelector.getSelectedIndex();
+        final int toReceiveIndex = pokemonToReceiveSelector.getSelectedIndex();
         thisTrainer.trade(otherTrainer, thisTrainer.currentParty().get(toGiveIndex), otherTrainer.currentParty().get(toReceiveIndex));
 
+        thisTrainer.sortParty();
+        otherTrainer.sortParty();
         PokemonManagerRunner.repaintParties();
         PokemonManagerRunner.repaintPokeQueues();
         PokemonManagerRunner.repaintAvgLevel();

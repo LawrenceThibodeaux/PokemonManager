@@ -189,6 +189,7 @@ public class LevelAndEnqueueDialog extends JDialog {
                     thisButton.setEnabled(false);
 
                     trainer.currentParty().add(p);
+                    p.takeOutOfPc();
                     onDecks.remove(p);
                 }
             });

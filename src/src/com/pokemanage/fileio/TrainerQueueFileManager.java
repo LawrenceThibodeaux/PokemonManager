@@ -24,13 +24,15 @@ public class TrainerQueueFileManager {
 
     }
 
-    public boolean saveQueue(final PokemonQueue queue, final PokemonVersionColor pvc) {
+    public boolean saveQueue(final PokeTrainer trainer) {
         final Path trainerQueue = Paths.get(
-                TRAINER_QUEUE_DATA_FILE_PREFIX + pvc + TEXT_SUFFIX);
+                TRAINER_QUEUE_DATA_FILE_PREFIX + trainer.version() + TEXT_SUFFIX);
         final List<String> lines = new LinkedList<>();
-        for (final Pokemon p : queue.currentQueue()) {
+        for (final Pokemon p : trainer.currentParty()) {
             lines.add(p.toString());
-            System.out.println(p.toString());
+        }
+        for (final Pokemon p : trainer.pokeQueue().currentQueue()) {
+            lines.add(p.toString());
         }
 
         try {

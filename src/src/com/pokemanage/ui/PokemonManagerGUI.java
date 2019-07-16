@@ -1,5 +1,7 @@
 package com.pokemanage.ui;
 
+import com.pokemanage.fileio.TrainerPokedexFileManager;
+import com.pokemanage.fileio.TrainerQueueFileManager;
 import com.pokemanage.pokedata.PokeTrainer;
 import com.pokemanage.pokedata.PokemonEncyclopedia;
 import com.pokemanage.pokedata.PokemonVersionColor;
@@ -47,15 +49,16 @@ public class PokemonManagerGUI {
     private JTable queueTableYELLOW;
     private JTable pokedexTableYELLOW;
 
-    // TODO: Implement trade buttons
-
-    // TODO: implement save buttons
-
     // TODO: implement HM Move additions
 
     private final Map<PokemonVersionColor, PokeTrainer> trainers;
 
-    public PokemonManagerGUI(final Map<PokemonVersionColor, PokeTrainer> trainers, final PokemonEncyclopedia pokeEncyclopedia) {
+    public PokemonManagerGUI(
+            final Map<PokemonVersionColor, PokeTrainer> trainers,
+            final PokemonEncyclopedia pokeEncyclopedia,
+            final TrainerQueueFileManager queueFileManager,
+            final TrainerPokedexFileManager pokedexFileManager
+    ) {
         this.trainers = trainers;
         levelAndEnqueueButtonBLUE.setText(LEVEL_AND_ENQUEUE_TEXT);
         levelAndEnqueueButtonRED.setText(LEVEL_AND_ENQUEUE_TEXT);
@@ -81,6 +84,13 @@ public class PokemonManagerGUI {
                 dialog.showDialog();
             }
         });
+        saveButtonBLUE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                queueFileManager.saveQueue(trainers.get(PokemonVersionColor.BLUE));
+                pokedexFileManager.savePokedex(trainers.get(PokemonVersionColor.BLUE).pokedex(), PokemonVersionColor.BLUE);
+            }
+        });
         levelAndEnqueueButtonRED.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +112,13 @@ public class PokemonManagerGUI {
                 dialog.showDialog();
             }
         });
+        saveButtonRED.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                queueFileManager.saveQueue(trainers.get(PokemonVersionColor.RED));
+                pokedexFileManager.savePokedex(trainers.get(PokemonVersionColor.RED).pokedex(), PokemonVersionColor.RED);
+            }
+        });
         levelAndEnqueueButtonYELLOW.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +138,13 @@ public class PokemonManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 final TradeDialog dialog = new TradeDialog(trainers.get(PokemonVersionColor.YELLOW), trainers);
                 dialog.showDialog();
+            }
+        });
+        saveButtonYELLOW.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                queueFileManager.saveQueue(trainers.get(PokemonVersionColor.YELLOW));
+                pokedexFileManager.savePokedex(trainers.get(PokemonVersionColor.YELLOW).pokedex(), PokemonVersionColor.YELLOW);
             }
         });
     }
