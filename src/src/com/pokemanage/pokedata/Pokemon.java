@@ -87,6 +87,10 @@ public class Pokemon implements Comparable {
         this.box = OUT_OF_PC;
     }
 
+    public void teachHMMove(final HMMove move) {
+        hmMoves.add(move);
+    }
+
     @Override
     public int compareTo(final Object other) {
         final Pokemon o = (Pokemon) other;

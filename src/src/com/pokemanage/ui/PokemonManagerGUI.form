@@ -42,7 +42,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="2bd66" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="2bd66" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -56,6 +56,14 @@
                     </constraints>
                     <properties>
                       <text value="Level and Enqueue"/>
+                    </properties>
+                  </component>
+                  <component id="cbfa7" class="javax.swing.JButton" binding="hmButtonBLUE">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Add HM Move"/>
                     </properties>
                   </component>
                 </children>
@@ -232,7 +240,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="6b755" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="6b755" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -246,6 +254,14 @@
                     </constraints>
                     <properties>
                       <text value="Level &amp; Enqueue"/>
+                    </properties>
+                  </component>
+                  <component id="95ed3" class="javax.swing.JButton" binding="hmButtonRED">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Add HM Move"/>
                     </properties>
                   </component>
                 </children>
@@ -420,7 +436,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="be2fd" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="be2fd" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -434,6 +450,14 @@
                     </constraints>
                     <properties>
                       <text value="Level &amp; Enqueue"/>
+                    </properties>
+                  </component>
+                  <component id="13490" class="javax.swing.JButton" binding="hmButtonYELLOW">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Add HM Move"/>
                     </properties>
                   </component>
                 </children>
