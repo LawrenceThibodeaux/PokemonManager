@@ -167,9 +167,9 @@ public class LevelAndEnqueueDialog extends JDialog {
                             thisPokemon.levelUp(Integer.parseInt(newHP.getText()));
                             trainer.avgLevelDividend++;
                         }
-                        final int suggestedBox = trainer.pokeQueue().enqueue(thisPokemon);
+                        final int boxNum = Integer.parseInt(thisBox.getText());
+                        trainer.pokeQueue().enqueueInBox(thisPokemon, boxNum);
                         trainer.currentParty().remove(thisPokemon);
-                        thisBox.setText(String.valueOf(suggestedBox));
                     }
                 });
             }
