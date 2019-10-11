@@ -1,6 +1,7 @@
 package com.pokemanage;
 
 import com.pokemanage.fileio.EncyclopediaFileManager;
+import com.pokemanage.fileio.TrainerNotesFileManager;
 import com.pokemanage.fileio.TrainerPokedexFileManager;
 import com.pokemanage.fileio.TrainerQueueFileManager;
 import com.pokemanage.pokedata.*;
@@ -19,6 +20,7 @@ public class PokemonManagerRunner {
     private static PokemonEncyclopedia pokemonEncyclopedia;
     private static final TrainerQueueFileManager trainerQueueFileManager = new TrainerQueueFileManager();
     private static final TrainerPokedexFileManager trainerPokedexFileManager = new TrainerPokedexFileManager();
+    private static final TrainerNotesFileManager trainerNotesFileManager = new TrainerNotesFileManager();
     private static final Map<PokemonVersionColor, PokeTrainer> trainers = new HashMap<>();
     private static PokemonManagerGUI gui;
     /**
@@ -28,10 +30,10 @@ public class PokemonManagerRunner {
      */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("PokemonManager V1.0");
+        JFrame frame = new JFrame("PokemonManager V1.1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gui = new PokemonManagerGUI(trainers, pokemonEncyclopedia, trainerQueueFileManager, trainerPokedexFileManager);
+        gui = new PokemonManagerGUI(trainers, pokemonEncyclopedia, trainerQueueFileManager, trainerPokedexFileManager, trainerNotesFileManager);
         frame.getContentPane().add(gui.getMainPanel());
 
         //Display the window.
@@ -50,6 +52,7 @@ public class PokemonManagerRunner {
                 initParties();
                 initPokeQueues();
                 initPokedex();
+                initNotesAreas();
                 repaintAvgLevel();
             }
         });
@@ -65,6 +68,7 @@ public class PokemonManagerRunner {
             final PokeTrainer trainer = new PokeTrainer(color);
             trainerQueueFileManager.loadQueue(trainer);
             trainerPokedexFileManager.loadPokedex(trainer);
+            trainerNotesFileManager.loadNotes(trainer);
             trainers.put(color, trainer);
         }
     }
@@ -139,6 +143,13 @@ public class PokemonManagerRunner {
 
             gui.getQueueTable(color).setModel(model);
             gui.getQueueTable(color).doLayout();
+        }
+    }
+
+    private static void initNotesAreas() {
+        for (final PokemonVersionColor color : PokemonVersionColor.values()) {
+            final JTextArea notesArea = gui.getNotesArea(color);
+            notesArea.setText(trainers.get(color).notes());
         }
     }
 

@@ -8,6 +8,7 @@ public class PokeTrainer {
     private Pokedex pokedex;
     private final PokemonVersionColor version;
     public double avgLevelDividend;
+    private String notes;
 
     public PokeTrainer(
             final PokemonVersionColor version) {
@@ -52,6 +53,14 @@ public class PokeTrainer {
 
     public double avgLevel() {
         return this.avgLevelDividend / (pokeQueue.currentQueue().size() + currentParty.size());
+    }
+
+    public void setNotes(final String notes) {
+        this.notes = notes;
+    }
+
+    public String notes() {
+        return this.notes;
     }
 
     public void trade(final PokeTrainer other, final Pokemon toGive, final Pokemon toReceive) {
