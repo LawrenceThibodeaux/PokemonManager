@@ -63,6 +63,7 @@ public class PokeTrainer {
         return this.notes;
     }
 
+    // BUG: Trade does not update isTraded field
     public void trade(final PokeTrainer other, final Pokemon toGive, final Pokemon toReceive) {
         if (!other.currentParty().contains(toReceive)) {
             return;
