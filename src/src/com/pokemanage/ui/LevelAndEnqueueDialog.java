@@ -143,7 +143,7 @@ public class LevelAndEnqueueDialog extends JDialog {
 
         final List<Pokemon> currentParty = trainer.currentParty();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < currentParty.size(); i++) {
             final Pokemon thisPokemon = currentParty.get(i);
             if (thisPokemon != null) {
                 toBenchNames.get(i).setText(thisPokemon.name());

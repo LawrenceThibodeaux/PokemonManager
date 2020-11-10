@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class TrainerQueueFileManager {
     private static final String TRAINER_QUEUE_DATA_FILE_PREFIX =
@@ -45,7 +44,7 @@ public class TrainerQueueFileManager {
     }
 
     public void loadQueue(final PokeTrainer trainer) {
-        final PriorityQueue<Pokemon> queue = new PriorityQueue<>();
+        final List<Pokemon> queue = new ArrayList<>();
         final List<Pokemon> currentParty = new ArrayList<>();
         final int[] boxSizes = new int[NUM_BOXES + 1];
         final Path trainerQueue = Paths.get(

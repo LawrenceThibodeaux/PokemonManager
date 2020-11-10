@@ -1,6 +1,7 @@
 package com.pokemanage.pokedata;
 
-import java.util.PriorityQueue;
+import java.util.Collections;
+import java.util.List;
 
 /*
  * PokemonQueue: contains all pokemon not in current party.
@@ -8,11 +9,11 @@ import java.util.PriorityQueue;
  */
 public class PokemonQueue {
     private static final int MAX_BOX_SIZE = 20;
-    private PriorityQueue<Pokemon> queue;
+    private List<Pokemon> queue;
     private int[] boxSizes;
 
     public PokemonQueue(
-            final PriorityQueue<Pokemon> queue,
+            final List<Pokemon> queue,
             final int[] boxSizes) {
         this.queue = queue;
         this.boxSizes = boxSizes;
@@ -22,12 +23,12 @@ public class PokemonQueue {
         return this.boxSizes;
     }
 
-    public PriorityQueue<Pokemon> currentQueue() {
+    public List<Pokemon> currentQueue() {
         return this.queue;
     }
 
     /*
-     * Returns provided Pokemon to the priority queue,
+     * Returns provided Pokemon to the queue,
      * and returns the box used.
      */
     public int enqueue(final Pokemon pokemon) {
@@ -35,22 +36,24 @@ public class PokemonQueue {
         pokemon.putInBox(box);
         boxSizes[box]++;
         queue.add(pokemon);
+        Collections.sort(queue);
         return box;
     }
 
     public int enqueueInBox(final Pokemon pokemon, final int box) {
         if (boxSizes[box] >= MAX_BOX_SIZE) {
-            throw new RuntimeException();
+            System.err.println("Warning: A box is overfilled!");
         }
 
         pokemon.putInBox(box);
         boxSizes[box]++;
         queue.add(pokemon);
+        Collections.sort(queue);
         return box;
     }
 
     public Pokemon dequeue() {
-        final Pokemon onDeck = queue.poll();
+        final Pokemon onDeck = queue.remove(0);
         boxSizes[onDeck.box()]--;
         return onDeck;
     }
